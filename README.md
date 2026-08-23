@@ -2,11 +2,12 @@
 
 AI Film Director is an OpenCode project that transforms:
 
-Story
+→ Story
 → Screenplay
 → Characters
 → Character Sheets
-→ Locations / Props
+→ Locations
+→ Props
 → Storyboard
 → Shot List
 → Image Prompts
@@ -204,7 +205,7 @@ ai-film-director/
 
 ## Install
 
-git clone <repository>
+git clone https://github.com/BitraAI/ai-film-director.git
 cd ai-film-director
 
 python -m venv film-env
