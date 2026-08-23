@@ -1,0 +1,61 @@
+anyOf:
+  - type: object
+    required:
+      - location_id
+      - name
+      - description
+      - visual_anchors
+    properties:
+      location_id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      architecture:
+        type: string
+      layout:
+        type: string
+      materials:
+        type: array
+        items:
+          type: string
+      lighting:
+        type: string
+      atmosphere:
+        type: string
+      visual_anchors:
+        type: array
+        items:
+          type: string
+  - type: array
+    items:
+      type: object
+      required:
+        - location_id
+        - name
+        - description
+        - visual_anchors
+      properties:
+        location_id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        architecture:
+          type: string
+        layout:
+          type: string
+        materials:
+          type: array
+          items:
+            type: string
+        lighting:
+          type: string
+        atmosphere:
+          type: string
+        visual_anchors:
+          type: array
+          items:
+            type: string

@@ -1,0 +1,26 @@
+type: object
+required:
+  - project_id
+  - title
+  - genre
+  - aspect_ratio
+  - fps
+properties:
+  project_id:
+    type: string
+  title:
+    type: string
+  genre:
+    type: string
+  aspect_ratio:
+    type: string
+    enum:
+      - "16:9"
+      - "2.39:1"
+      - "1.85:1"
+      - "4:3"
+      - "9:16"
+  fps:
+    type: number
+  duration_seconds:
+    type: number

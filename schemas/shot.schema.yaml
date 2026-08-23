@@ -1,0 +1,117 @@
+anyOf:
+  - type: object
+    required:
+      - shot_id
+      - scene_id
+      - sequence
+      - shot_size
+      - subject
+      - action
+      - duration
+    properties:
+      shot_id:
+        type: string
+      scene_id:
+        type: string
+      sequence:
+        type: integer
+      shot_size:
+        type: string
+      angle:
+        type: string
+      lens:
+        type: string
+      camera_height:
+        type: string
+      camera_movement:
+        type: string
+      framing:
+        type: string
+      composition:
+        type: string
+      subject:
+        type: string
+      characters:
+        type: array
+        items:
+          type: string
+      action:
+        type: string
+      duration:
+        type: number
+      fps:
+        type: number
+      lighting:
+        type: string
+      transition:
+        type: string
+      image_model:
+        type: string
+        enum:
+          - krea2
+          - flux2-klein
+          - qwen-image
+      video_model:
+        type: string
+        enum:
+          - ltx-2.5
+          - minimax-h3
+  - type: array
+    items:
+      type: object
+      required:
+        - shot_id
+        - scene_id
+        - sequence
+        - shot_size
+        - subject
+        - action
+        - duration
+      properties:
+        shot_id:
+          type: string
+        scene_id:
+          type: string
+        sequence:
+          type: integer
+        shot_size:
+          type: string
+        angle:
+          type: string
+        lens:
+          type: string
+        camera_height:
+          type: string
+        camera_movement:
+          type: string
+        framing:
+          type: string
+        composition:
+          type: string
+        subject:
+          type: string
+        characters:
+          type: array
+          items:
+            type: string
+        action:
+          type: string
+        duration:
+          type: number
+        fps:
+          type: number
+        lighting:
+          type: string
+        transition:
+          type: string
+        image_model:
+          type: string
+          enum:
+            - krea2
+            - flux2-klein
+            - qwen-image
+        video_model:
+          type: string
+          enum:
+            - ltx-2.5
+            - minimax-h3

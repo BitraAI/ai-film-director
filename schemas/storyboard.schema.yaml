@@ -1,0 +1,39 @@
+type: object
+required:
+  - storyboard_id
+  - panels
+properties:
+  storyboard_id:
+    type: string
+  panels:
+    type: array
+    items:
+      type: object
+      required:
+        - panel_id
+        - scene_id
+        - shot_id
+        - composition
+      properties:
+        panel_id:
+          type: string
+        scene_id:
+          type: string
+        shot_id:
+          type: string
+        composition:
+          type: string
+        camera:
+          type: string
+        characters:
+          type: array
+          items:
+            type: string
+        location_id:
+          type: string
+        action:
+          type: string
+        lighting:
+          type: string
+        continuity:
+          type: string

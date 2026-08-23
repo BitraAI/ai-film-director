@@ -1,0 +1,32 @@
+type: object
+required:
+  - prompt_id
+  - shot_id
+  - model
+  - prompt
+properties:
+  prompt_id:
+    type: string
+  shot_id:
+    type: string
+  model:
+    type: string
+    enum:
+      - ltx-2.5
+      - minimax-h3
+  prompt:
+    type: string
+  duration:
+    type: number
+  fps:
+    type: number
+  camera_motion:
+    type: string
+  subject_motion:
+    type: string
+  environment_motion:
+    type: string
+  timing:
+    type: string
+  continuity:
+    type: string

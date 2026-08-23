@@ -1,0 +1,39 @@
+type: object
+required:
+  - prompt_id
+  - shot_id
+  - model
+  - prompt
+properties:
+  prompt_id:
+    type: string
+  shot_id:
+    type: string
+  model:
+    type: string
+    enum:
+      - krea2
+      - flux2-klein
+      - qwen-image
+  prompt:
+    type: string
+  negative_prompt:
+    type: string
+  seed:
+    type: integer
+  width:
+    type: integer
+  height:
+    type: integer
+  character_anchors:
+    type: array
+    items:
+      type: string
+  location_anchors:
+    type: array
+    items:
+      type: string
+  props:
+    type: array
+    items:
+      type: string

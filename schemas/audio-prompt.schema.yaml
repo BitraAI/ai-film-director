@@ -1,0 +1,29 @@
+type: object
+required:
+  - prompt_id
+  - scene_id
+  - speaker_id
+  - text
+properties:
+  prompt_id:
+    type: string
+  scene_id:
+    type: string
+  shot_id:
+    type: string
+  speaker_id:
+    type: string
+  text:
+    type: string
+  voice:
+    type: string
+  emotion:
+    type: string
+  tone:
+    type: string
+  pace:
+    type: string
+  pitch:
+    type: string
+  energy:
+    type: string

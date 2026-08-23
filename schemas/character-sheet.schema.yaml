@@ -1,0 +1,35 @@
+type: object
+required:
+  - character_id
+  - canonical_description
+  - visual_anchors
+  - views
+properties:
+  character_id:
+    type: string
+  canonical_description:
+    type: string
+  visual_anchors:
+    type: array
+    items:
+      type: string
+  views:
+    type: object
+    properties:
+      front:
+        type: string
+      three_quarter:
+        type: string
+      profile:
+        type: string
+      back:
+        type: string
+  wardrobe:
+    type: array
+    items:
+      type: object
+      properties:
+        wardrobe_id:
+          type: string
+        description:
+          type: string

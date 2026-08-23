@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "film-director": {
+      "description": "Orchestrates the complete AI film production pipeline.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/film-director.md}",
+      "permission": {
+        "read": "allow",
+        "edit": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "bash": "allow",
+        "task": "allow",
+        "skill": "allow",
+        "websearch": "allow",
+        "webfetch": "allow"
+      }
+    }
+  },
+  "permission": {
+    "skill": {
+      "*": "allow"
+    }
+  }
+}

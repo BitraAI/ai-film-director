@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-film-director"
+version = "0.1.0"
+description = "OpenCode AI Film Director pipeline"
+requires-python = ">=3.11"
+dependencies = [
+    "PyYAML>=6.0",
+    "jsonschema>=4.20",
+    "requests>=2.31"
+]
+
+[project.scripts]
+film-director = "film_director.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

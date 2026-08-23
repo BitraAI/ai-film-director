@@ -1,0 +1,51 @@
+type: object
+required:
+  - story_id
+  - title
+  - logline
+  - premise
+  - acts
+properties:
+  story_id:
+    type: string
+  title:
+    type: string
+  logline:
+    type: string
+  premise:
+    type: string
+  genre:
+    type: string
+  tone:
+    type: string
+  theme:
+    type: string
+  characters:
+    type: array
+    items:
+      type: string
+  acts:
+    type: array
+    items:
+      type: object
+      required:
+        - act_id
+        - title
+        - beats
+      properties:
+        act_id:
+          type: string
+        title:
+          type: string
+        beats:
+          type: array
+          items:
+            type: object
+            required:
+              - beat_id
+              - description
+            properties:
+              beat_id:
+                type: string
+              description:
+                type: string

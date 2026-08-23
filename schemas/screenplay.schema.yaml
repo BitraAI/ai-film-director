@@ -1,0 +1,51 @@
+type: object
+required:
+  - screenplay_id
+  - scenes
+properties:
+  screenplay_id:
+    type: string
+  scenes:
+    type: array
+    items:
+      type: object
+      required:
+        - scene_id
+        - scene_number
+        - heading
+        - location_id
+        - time
+        - action
+      properties:
+        scene_id:
+          type: string
+        scene_number:
+          type: integer
+        heading:
+          type: string
+        location_id:
+          type: string
+        time:
+          type: string
+        characters:
+          type: array
+          items:
+            type: string
+        action:
+          type: string
+        dialogue:
+          type: array
+          items:
+            type: object
+            required:
+              - character_id
+              - text
+            properties:
+              character_id:
+                type: string
+              text:
+                type: string
+        visual_intent:
+          type: string
+        audio_intent:
+          type: string

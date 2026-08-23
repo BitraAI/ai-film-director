@@ -1,0 +1,30 @@
+type: object
+required:
+  - project_id
+  - stages
+properties:
+  project_id:
+    type: string
+  stages:
+    type: object
+    properties:
+      story:
+        type: string
+      screenplay:
+        type: string
+      characters:
+        type: string
+      world:
+        type: string
+      storyboard:
+        type: string
+      shots:
+        type: string
+      images:
+        type: string
+      videos:
+        type: string
+      audio:
+        type: string
+      final:
+        type: string

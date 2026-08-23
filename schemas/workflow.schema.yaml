@@ -1,0 +1,34 @@
+type: object
+required:
+  - workflow_id
+  - model
+  - workflow_file
+  - inputs
+properties:
+  workflow_id:
+    type: string
+  model:
+    type: string
+  workflow_file:
+    type: string
+  inputs:
+    type: object
+    properties:
+      prompt:
+        type: string
+      negative_prompt:
+        type: string
+      seed:
+        type: string
+      width:
+        type: string
+      height:
+        type: string
+      frames:
+        type: string
+      fps:
+        type: string
+      image:
+        type: string
+      audio:
+        type: string

@@ -1,0 +1,29 @@
+type: object
+required:
+  - render_id
+  - shots
+properties:
+  render_id:
+    type: string
+  fps:
+    type: number
+  resolution:
+    type: string
+  shots:
+    type: array
+    items:
+      type: object
+      required:
+        - shot_id
+        - video
+      properties:
+        shot_id:
+          type: string
+        video:
+          type: string
+        audio:
+          type: array
+          items:
+            type: string
+        transition:
+          type: string
