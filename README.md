@@ -107,8 +107,8 @@ ai-film-director/
 │       ├── screenplay/screenplay.yaml
 │       ├── characters/characters.yaml
 │       ├── characters/sheets/*.yaml
-│       ├── locations/locations.yaml  # or world/locations.yaml (see note)
-│       ├── props/props.yaml          # or world/props.yaml
+│       ├── locations/locations.yaml
+│       ├── props/props.yaml
 │       ├── storyboard/storyboard.yaml
 │       ├── shots/shots.yaml
 │       ├── prompts/images/*.yaml
@@ -121,34 +121,27 @@ ai-film-director/
 │       └── manifest.yaml
 │
 ├── src/
-│   ├── film_director/           # Core package (pip install -e .)
-│   │   ├── __init__.py
-│   │   ├── cli.py               # film-director status|manifest
-│   │   ├── config.py            # env: COMFYUI_URL, OUTPUT_ROOT, etc.
-│   │   ├── ids.py               # new_id(prefix)
-│   │   ├── paths.py             # project_paths() / create_project_tree()
-│   │   ├── validation.py        # validate_file()
-│   │   └── manifest.py          # build_manifest() / save_manifest()
-│   ├── pipeline/
-│   │   ├── director.py          # FilmDirector.status() / next_stage()
-│   │   ├── stage.py
-│   │   └── continuity.py
-│   ├── prompts/
-│   │   ├── image.py
-│   │   ├── video.py
-│   │   └── audio.py
-│   ├── comfyui/
-│   │   ├── client.py            # ComfyUIClient
-│   │   ├── workflow.py          # load_workflow()
-│   │   └── adapters.py          # prepare_workflow()
-│   ├── render/
-│   │   ├── images.py            # render_image()
-│   │   ├── videos.py            # render_video()
-│   │   ├── audio.py             # render_audio()
-│   │   └── final.py             # render_final() → final/film.mp4
-│   └── utils/
-│       ├── files.py
-│       └── jsonx.py
+│   └── film_director/           # Core package (pip install -e .)
+│       ├── __init__.py
+│       ├── cli.py               # film-director status|manifest
+│       ├── config.py            # env: COMFYUI_URL, OUTPUT_ROOT, etc.
+│       ├── paths.py             # project_paths() / create_project_tree()
+│       ├── validation.py        # validate_file() (cached schemas)
+│       ├── manifest.py          # build_manifest() / save_manifest()
+│       ├── comfyui/
+│       │   ├── client.py        # ComfyUIClient (Session + retry + backoff)
+│       │   ├── workflow.py      # load_workflow() / set_node_input()
+│       │   └── adapters.py      # prepare_workflow() (cached)
+│       ├── pipeline/
+│       │   └── director.py      # FilmDirector.status() / next_stage()
+│       ├── render/
+│       │   ├── images.py        # render_image()
+│       │   ├── videos.py        # render_video()
+│       │   ├── audio.py         # render_audio()
+│       │   └── final.py         # render_final() → final/film.mp4
+│       └── utils/
+│           ├── files.py         # atomic load/save JSON/YAML
+│           └── jsonx.py         # load_json / save_json
 │
 ├── scripts/                     # Standalone entry points
 │   ├── init_project.py
@@ -165,8 +158,6 @@ ai-film-director/
     ├── test_workflow.py
     └── test_pipeline.py
 ```
-
-> **Note on `world/` vs `locations/`/`props/`:** `src/film_director/paths.py:create_project_tree()` creates `world/`; the pipeline and existing example projects use `locations/` + `props/` at the project root. `src/pipeline/director.py` checks `world/locations.yaml` for the `world` stage, while `src/film_director/manifest.py` and `scripts/build_manifest.py` check `world/locations.yaml` / `world/props.yaml` and `locations/locations.yaml` / `props/props.yaml` respectively. Both layouts are accepted by validation — keep the layout produced by your agents consistent.
 
 ## Install
 
@@ -241,7 +232,7 @@ python scripts/init_project.py my-film
 This creates `project.yaml` (`project_id`, `title`, `genre`, `aspect_ratio`, `fps`, `duration_seconds` validated by `schemas/project.schema.yaml:1`) and the tree from `src/film_director/paths.py:4`:
 
 ```
-story/  screenplay/  characters/sheets/  world/  storyboard/  shots/
+story/  screenplay/  characters/sheets/  locations/  props/  storyboard/  shots/
 prompts/images/  prompts/videos/  prompts/audio/
 renders/images/  renders/videos/  audio/  final/
 ```
@@ -261,7 +252,7 @@ Primary orchestrator (`opencode.json:4`, `.opencode/agents/film-director.md:1`):
 @film-director
 ```
 
-Full pipeline (story → screenplay → characters → world → storyboard → shots → images → videos → audio → continuity → render):
+Full pipeline (story → screenplay → characters → locations → props → storyboard → shots → images → videos → audio → continuity → render):
 
 ```
 /film my-film
@@ -273,7 +264,7 @@ Run stages independently:
 /story my-film        # → story/story.yaml
 /screenplay my-film   # → screenplay/screenplay.yaml
 /characters my-film   # → characters/characters.yaml + characters/sheets/*.yaml
-/locations my-film    # → locations/locations.yaml (or world/locations.yaml)
+/locations my-film    # → locations/locations.yaml
 /props my-film        # → props/props.yaml
 /storyboard my-film   # → storyboard/storyboard.yaml
 /shots my-film        # → shots/shots.yaml
@@ -348,9 +339,9 @@ python scripts/run_workflow.py <model> "<prompt>" [--negative "..."] [--seed 42]
 | 12 | Audio | `/audio` / `generate_audio.py` | screenplay dialogue | `prompts/audio/*.yaml`, `audio/` | `audio-prompt.schema.yaml` |
 | 13 | Final | `/render` / `render_final.py` | renders + audio | `final/film.mp4` | `render.schema.yaml` |
 
-Continuity is enforced at every stage by `@continuity-agent` (`.opencode/skills/continuity/SKILL.md`) and `src/pipeline/continuity.py`. Director rules (`.opencode/agents/film-director.md:26`): stable IDs, every scene → shots, every shot → image prompt, every motion shot → video prompt, every dialogue → audio prompt, preserve appearance/state/chronology.
+Continuity is enforced at every stage by `@continuity-agent` (`.opencode/skills/continuity/SKILL.md`). Director rules (`.opencode/agents/film-director.md:26`): stable IDs, every scene → shots, every shot → image prompt, every motion shot → video prompt, every dialogue → audio prompt, preserve appearance/state/chronology.
 
-`FilmDirector.next_stage()` order (`src/pipeline/director.py:4`): `story → screenplay → characters → world → storyboard → shots → images → videos → audio → final`.
+`FilmDirector.next_stage()` order (`src/film_director/pipeline/director.py:4`): `story → screenplay → characters → locations → props → storyboard → shots → images → videos → audio → final`.
 
 ## Schemas & Validation
 

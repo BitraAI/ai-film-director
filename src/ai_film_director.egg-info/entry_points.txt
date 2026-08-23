@@ -1,2 +1,0 @@
-[console_scripts]
-film-director = film_director.cli:main

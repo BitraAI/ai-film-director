@@ -1,8 +1,0 @@
-Metadata-Version: 2.4
-Name: ai-film-director
-Version: 0.1.0
-Summary: OpenCode AI Film Director pipeline
-Requires-Python: >=3.11
-Requires-Dist: PyYAML>=6.0
-Requires-Dist: jsonschema>=4.20
-Requires-Dist: requests>=2.31

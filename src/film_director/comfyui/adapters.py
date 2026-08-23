@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+import copy
+from functools import lru_cache
 from pathlib import Path
 
 from .workflow import load_workflow, set_node_input
@@ -56,10 +60,20 @@ ADAPTERS = {
 }
 
 
-def prepare_workflow(model: str, prompt: str, negative_prompt=None, seed=None):
+@lru_cache(maxsize=None)
+def _load_cached_workflow(path_str: str) -> dict:
+    """Cache raw workflow JSON by path to avoid repeated disk I/O."""
+    return load_workflow(Path(path_str))
+
+
+def prepare_workflow(model: str, prompt: str, negative_prompt=None, seed=None) -> dict:
+    if model not in ADAPTERS:
+        raise ValueError(f"Unknown model: {model}. Available: {sorted(ADAPTERS)}")
     config = ADAPTERS[model]
 
-    workflow = load_workflow(config["workflow"])
+    # Deep-copy cached workflow so mutations don't pollute cache
+    cached = _load_cached_workflow(str(config["workflow"]))
+    workflow = copy.deepcopy(cached)
 
     if config.get("prompt_node") is not None:
         set_node_input(

@@ -6,3 +6,5 @@ projects
 .opencode/package-lock.json
 film-env
 .env
+src/*.egg-info/
+*.egg-info/

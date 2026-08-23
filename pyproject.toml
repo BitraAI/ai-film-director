@@ -18,3 +18,4 @@ film-director = "film_director.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+include = ["film_director*"]

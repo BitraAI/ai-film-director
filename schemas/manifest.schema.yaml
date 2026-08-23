@@ -9,22 +9,24 @@ properties:
     type: object
     properties:
       story:
-        type: string
+        type: boolean
       screenplay:
-        type: string
+        type: boolean
       characters:
-        type: string
-      world:
-        type: string
+        type: boolean
+      locations:
+        type: boolean
+      props:
+        type: boolean
       storyboard:
-        type: string
+        type: boolean
       shots:
-        type: string
-      images:
-        type: string
-      videos:
-        type: string
-      audio:
-        type: string
+        type: boolean
+      image_prompts:
+        type: boolean
+      video_prompts:
+        type: boolean
+      audio_prompts:
+        type: boolean
       final:
-        type: string
+        type: boolean

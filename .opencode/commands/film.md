@@ -11,7 +11,8 @@ Execute:
 story
 screenplay
 characters
-world
+locations
+props
 storyboard
 shots
 images
