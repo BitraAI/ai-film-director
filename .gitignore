@@ -5,3 +5,4 @@ projects
 .opencode/package.json
 .opencode/package-lock.json
 film-env
+.env
