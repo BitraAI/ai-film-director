@@ -120,28 +120,26 @@ ai-film-director/
 │       ├── final/film.mp4
 │       └── manifest.yaml
 │
-├── src/
-│   └── film_director/           # Core package (pip install -e .)
-│       ├── __init__.py
-│       ├── cli.py               # film-director status|manifest
-│       ├── config.py            # env: COMFYUI_URL, OUTPUT_ROOT, etc.
-│       ├── paths.py             # project_paths() / create_project_tree()
-│       ├── validation.py        # validate_file() (cached schemas)
-│       ├── manifest.py          # build_manifest() / save_manifest()
-│       ├── comfyui/
-│       │   ├── client.py        # ComfyUIClient (Session + retry + backoff)
-│       │   ├── workflow.py      # load_workflow() / set_node_input()
-│       │   └── adapters.py      # prepare_workflow() (cached)
-│       ├── pipeline/
-│       │   └── director.py      # FilmDirector.status() / next_stage()
-│       ├── render/
-│       │   ├── images.py        # render_image()
-│       │   ├── videos.py        # render_video()
-│       │   ├── audio.py         # render_audio()
-│       │   └── final.py         # render_final() → final/film.mp4
-│       └── utils/
-│           ├── files.py         # atomic load/save JSON/YAML
-│           └── jsonx.py         # load_json / save_json
+├── src/                         # Flat package (pip install -e ., PYTHONPATH=src)
+│   ├── cli.py                   # film-director status|manifest
+│   ├── config.py                # env: COMFYUI_URL, OUTPUT_ROOT, etc.
+│   ├── paths.py                 # project_paths() / create_project_tree()
+│   ├── validation.py            # validate_file() (cached schemas)
+│   ├── manifest.py              # build_manifest() / save_manifest()
+│   ├── comfyui/
+│   │   ├── client.py            # ComfyUIClient (Session + retry + backoff)
+│   │   ├── workflow.py          # load_workflow() / set_node_input()
+│   │   └── adapters.py          # prepare_workflow() (cached)
+│   ├── pipeline/
+│   │   └── director.py          # FilmDirector.status() / next_stage()
+│   ├── render/
+│   │   ├── images.py            # render_image()
+│   │   ├── videos.py            # render_video()
+│   │   ├── audio.py             # render_audio()
+│   │   └── final.py             # render_final() → final/film.mp4
+│   └── utils/
+│       ├── files.py             # atomic load/save JSON/YAML
+│       └── jsonx.py             # load_json / save_json
 │
 ├── scripts/                     # Standalone entry points
 │   ├── init_project.py
@@ -184,7 +182,7 @@ python -m pytest -q
 cp .env.example .env
 ```
 
-`.env.example` (`src/film_director/config.py:1`):
+`.env.example` (`src/config.py:1`):
 
 ```
 COMFYUI_URL=http://127.0.0.1:8188
@@ -229,7 +227,7 @@ python scripts/init_project.py my-film
 # → projects/my-film/
 ```
 
-This creates `project.yaml` (`project_id`, `title`, `genre`, `aspect_ratio`, `fps`, `duration_seconds` validated by `schemas/project.schema.yaml:1`) and the tree from `src/film_director/paths.py:4`:
+This creates `project.yaml` (`project_id`, `title`, `genre`, `aspect_ratio`, `fps`, `duration_seconds` validated by `schemas/project.schema.yaml:1`) and the tree from `src/paths.py:4`:
 
 ```
 story/  screenplay/  characters/sheets/  locations/  props/  storyboard/  shots/
@@ -285,16 +283,12 @@ All scripts accept a project path (`projects/<name>` or absolute).
 ```bash
 # Validate schemas (story, screenplay, characters, locations, props, storyboard, shots)
 python scripts/validate_project.py projects/my-film
-# src/film_director/validation.py:6 — jsonschema against schemas/*.schema.yaml
+# src/validation.py:6 — jsonschema against schemas/*.schema.yaml
 
 # Project status / manifest
-python scripts/build_manifest.py projects/my-film  # preferred — writes manifest.yaml via src/film_director/manifest.py:29
-film-director status projects/my-film   # src/film_director/cli.py:15 — prints READY/MISSING per stage + next_stage()
+python scripts/build_manifest.py projects/my-film  # preferred — writes manifest.yaml via src/manifest.py:29
+film-director status projects/my-film   # src/cli.py:15 — prints READY/MISSING per stage + next_stage()
 film-director manifest projects/my-film # same as build_manifest.py
-# Note: film-director CLI currently imports FilmDirector from film_director.pipeline
-# but the package lives at src/pipeline/director.py:1. If you see
-# ModuleNotFoundError: No module named 'film_director.pipeline', use
-# PYTHONPATH=src film-director ... or scripts/build_manifest.py instead.
 
 # Images — iterate prompts/images/*.yaml → renders/images/
 python scripts/generate_images.py projects/my-film
@@ -341,11 +335,11 @@ python scripts/run_workflow.py <model> "<prompt>" [--negative "..."] [--seed 42]
 
 Continuity is enforced at every stage by `@continuity-agent` (`.opencode/skills/continuity/SKILL.md`). Director rules (`.opencode/agents/film-director.md:26`): stable IDs, every scene → shots, every shot → image prompt, every motion shot → video prompt, every dialogue → audio prompt, preserve appearance/state/chronology.
 
-`FilmDirector.next_stage()` order (`src/film_director/pipeline/director.py:4`): `story → screenplay → characters → locations → props → storyboard → shots → images → videos → audio → final`.
+`FilmDirector.next_stage()` order (`src/pipeline/director.py:4`): `story → screenplay → characters → locations → props → storyboard → shots → images → videos → audio → final`.
 
 ## Schemas & Validation
 
-All artifacts are YAML validated with `jsonschema` (`src/film_director/validation.py:6`):
+All artifacts are YAML validated with `jsonschema` (`src/validation.py:6`):
 
 ```bash
 python scripts/validate_project.py projects/my-film

@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-from film_director.manifest import build_manifest
+from manifest import build_manifest
 
 import yaml
 

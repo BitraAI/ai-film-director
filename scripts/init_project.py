@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 import yaml
 
-from film_director.paths import create_project_tree
+from paths import create_project_tree
 
 
 def main():

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from film_director.pipeline.director import FilmDirector
+from pipeline.director import FilmDirector
 
 
 def test_pipeline_status(tmp_path):

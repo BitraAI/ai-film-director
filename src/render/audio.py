@@ -2,8 +2,8 @@ from pathlib import Path
 
 import yaml
 
-from film_director.comfyui.adapters import prepare_workflow
-from film_director.comfyui.client import ComfyUIClient
+from comfyui.adapters import prepare_workflow
+from comfyui.client import ComfyUIClient
 
 
 def render_audio(

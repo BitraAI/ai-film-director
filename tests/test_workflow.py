@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from film_director.comfyui.workflow import load_workflow
+from comfyui.workflow import load_workflow
 
 
 def test_workflow_json():

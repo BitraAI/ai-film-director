@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-from film_director.validation import validate_file
+from validation import validate_file
 
 
 STAGES = {

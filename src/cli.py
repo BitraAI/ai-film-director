@@ -1,8 +1,8 @@
 import argparse
 from pathlib import Path
 
-from .manifest import save_manifest
-from .pipeline.director import FilmDirector
+from manifest import save_manifest
+from pipeline.director import FilmDirector
 
 
 def main():

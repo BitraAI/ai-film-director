@@ -19,4 +19,4 @@ Never assume node IDs.
 
 Node mappings are configured in:
 
-src/film_director/comfyui/adapters.py
+src/comfyui/adapters.py

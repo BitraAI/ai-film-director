@@ -3,7 +3,7 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
-from film_director.config import FFMPEG_BIN
+from config import FFMPEG_BIN
 
 
 def create_concat_file(videos: list[Path], concat_file: Path) -> Path:

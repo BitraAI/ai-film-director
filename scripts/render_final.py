@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-from film_director.render.final import render_final
+from render.final import render_final
 
 
 def main():

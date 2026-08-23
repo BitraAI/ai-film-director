@@ -14,8 +14,11 @@ dependencies = [
 ]
 
 [project.scripts]
-film-director = "film_director.cli:main"
+film-director = "cli:main"
+
+[tool.setuptools]
+py-modules = ["cli", "config", "manifest", "paths", "validation"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["film_director*"]
+include = ["comfyui*", "pipeline*", "render*", "utils*"]

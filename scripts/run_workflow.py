@@ -3,9 +3,9 @@ from pathlib import Path
 
 import yaml
 
-from film_director.comfyui.client import ComfyUIClient
-from film_director.comfyui.adapters import prepare_workflow
-from film_director.config import (
+from comfyui.client import ComfyUIClient
+from comfyui.adapters import prepare_workflow
+from config import (
     COMFYUI_URL,
     COMFYUI_TIMEOUT,
     POLL_INTERVAL,

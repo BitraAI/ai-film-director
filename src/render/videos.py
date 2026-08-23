@@ -2,11 +2,11 @@ from pathlib import Path
 
 import yaml
 
-from film_director.comfyui.adapters import prepare_workflow
-from film_director.comfyui.client import ComfyUIClient
+from comfyui.adapters import prepare_workflow
+from comfyui.client import ComfyUIClient
 
 
-def render_image(
+def render_video(
     prompt_file: Path,
     output_dir: Path,
     client: ComfyUIClient,
@@ -21,8 +21,6 @@ def render_image(
     workflow = prepare_workflow(
         model=model,
         prompt=data["prompt"],
-        negative_prompt=data.get("negative_prompt"),
-        seed=data.get("seed"),
     )
 
     result = client.execute(workflow)

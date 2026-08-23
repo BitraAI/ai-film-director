@@ -5,9 +5,9 @@ import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-from film_director.comfyui.client import ComfyUIClient
-from film_director.config import COMFYUI_TIMEOUT, COMFYUI_URL, POLL_INTERVAL
-from film_director.render.images import render_image
+from comfyui.client import ComfyUIClient
+from config import COMFYUI_TIMEOUT, COMFYUI_URL, POLL_INTERVAL
+from render.images import render_image
 
 
 def _render_one(prompt_file: Path, output_dir: Path, model_override: str | None) -> str:

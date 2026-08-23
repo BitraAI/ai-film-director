@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from film_director.utils.files import load_json, save_json
+from utils.files import load_json, save_json
 
 
 def load_workflow(path: Path) -> dict[str, Any]:
