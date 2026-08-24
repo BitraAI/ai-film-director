@@ -16,6 +16,42 @@ properties:
     type: string
   genre:
     type: string
+    enum:
+      - "Action"
+      - "Comedy"
+      - "Drama"
+      - "Horror"
+      - "Sci-Fi"
+      - "Documentary"
+      - "Romance"
+      - "Thriller"
+      - "Family"
+      - "Animation"
+      - "Adventure"
+      - "Fantasy"
+      - "Historical"
+      - "Musical"
+  subgenres:
+    type: array
+    items:
+      type: string
+      enum:
+        - "Action Adventure"
+        - "Action Comedy"
+        - "Action Thriller"
+        - "Comedy Drama"
+        - "Sci-Fi Adventure"
+        - "Sci-Fi Comedy"
+        - "Sci-Fi Horror"
+        - "Historical Drama"
+        - "Historical Epic"
+        - "Historical Fiction"
+        - "Film Noir"
+        - "Coming of Age"
+        - "3D Animation"
+        - "Space Opera"
+    uniqueItems: true
+    default: []
   tone:
     type: string
   theme:

@@ -19,6 +19,7 @@ def main():
         "project_id": name,
         "title": name.replace("-", " ").title(),
         "genre": "",
+        "subgenres": [],
         "aspect_ratio": "16:9",
         "fps": 24,
         "duration_seconds": 0,

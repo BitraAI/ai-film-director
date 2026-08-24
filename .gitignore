@@ -7,4 +7,3 @@ projects
 film-env
 .env
 src/*.egg-info/
-*.egg-info/

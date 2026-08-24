@@ -163,7 +163,7 @@ ai-film-director/
 git clone https://github.com/BitraAI/ai-film-director.git
 cd ai-film-director
 
-python -m venv film-env
+python3 -m venv film-env
 source film-env/bin/activate
 python -m pip install -U pip uv
 uv pip install -e .
@@ -224,10 +224,10 @@ python -m pytest tests/test_workflow.py -v
 
 ```bash
 python scripts/init_project.py my-film
-# → projects/my-film/
+ → projects/my-film/
 ```
 
-This creates `project.yaml` (`project_id`, `title`, `genre`, `aspect_ratio`, `fps`, `duration_seconds` validated by `schemas/project.schema.yaml:1`) and the tree from `src/paths.py:4`:
+This creates `project.yaml` (`project_id`, `title`, `genre`, `subgenres`, `aspect_ratio`, `fps`, `duration_seconds` validated by `schemas/project.schema.yaml:1`) with genre enum: Action, Comedy, Drama, Horror, Sci-Fi, Documentary, Romance, Thriller, Family, Animation, Adventure, Fantasy, Historical, Musical and subgenres enum: Action Adventure, Action Comedy, Action Thriller, Comedy Drama, Sci-Fi Adventure, Sci-Fi Comedy, Sci-Fi Horror, Historical Drama, Historical Epic, Historical Fiction, Film Noir, Coming of Age, 3D Animation, Space Opera and the tree from `src/paths.py:4`:
 
 ```
 story/  screenplay/  characters/sheets/  locations/  props/  storyboard/  shots/

@@ -53,3 +53,31 @@ anyOf:
           type: array
           items:
             type: string
+  - type: object
+    additionalProperties:
+      type: object
+      required:
+        - prop_id
+        - name
+        - description
+      properties:
+        prop_id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        owner:
+          type: string
+        material:
+          type: string
+        color:
+          type: string
+        state:
+          type: string
+        story_function:
+          type: string
+        continuity_rules:
+          type: array
+          items:
+            type: string

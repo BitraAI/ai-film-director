@@ -12,14 +12,42 @@ properties:
     type: string
   genre:
     type: string
-  aspect_ratio:
-    type: string
     enum:
-      - "16:9"
-      - "2.39:1"
-      - "1.85:1"
-      - "4:3"
-      - "9:16"
+      - "Action"
+      - "Comedy"
+      - "Drama"
+      - "Horror"
+      - "Sci-Fi"
+      - "Documentary"
+      - "Romance"
+      - "Thriller"
+      - "Family"
+      - "Animation"
+      - "Adventure"
+      - "Fantasy"
+      - "Historical"
+      - "Musical"
+  subgenres:
+    type: array
+    items:
+      type: string
+      enum:
+        - "Action Adventure"
+        - "Action Comedy"
+        - "Action Thriller"
+        - "Comedy Drama"
+        - "Sci-Fi Adventure"
+        - "Sci-Fi Comedy"
+        - "Sci-Fi Horror"
+        - "Historical Drama"
+        - "Historical Epic"
+        - "Historical Fiction"
+        - "Film Noir"
+        - "Coming of Age"
+        - "3D Animation"
+        - "Space Opera"
+    uniqueItems: true
+    default: []
   fps:
     type: number
   duration_seconds:

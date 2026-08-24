@@ -1,41 +1,139 @@
-type: object
-required:
-  - character_id
-  - name
-  - role
-  - identity
-properties:
-  character_id:
-    type: string
-  name:
-    type: string
-  role:
-    type: string
-  identity:
-    type: object
+anyOf:
+  - type: object
     required:
-      - age
-      - appearance
+      - character_id
+      - name
+      - role
+      - identity
     properties:
-      age:
+      character_id:
         type: string
-      appearance:
+      name:
         type: string
-      face:
+      role:
         type: string
-      hair:
+      identity:
+        type: object
+        required:
+          - age
+          - appearance
+        properties:
+          age:
+            type: string
+          appearance:
+            type: string
+          face:
+            type: string
+          hair:
+            type: string
+          eyes:
+            type: string
+          body:
+            type: string
+          wardrobe:
+            type: string
+          accessories:
+            anyOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+      personality:
         type: string
-      eyes:
+      voice:
         type: string
-      body:
-        type: string
-      wardrobe:
-        type: string
-      accessories:
+  - type: array
+    items:
+      type: object
+      required:
+        - character_id
+        - name
+        - role
+        - identity
+      properties:
+        character_id:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+        identity:
+          type: object
+          required:
+            - age
+            - appearance
+          properties:
+            age:
+              type: string
+            appearance:
+              type: string
+            face:
+              type: string
+            hair:
+              type: string
+            eyes:
+              type: string
+            body:
+              type: string
+            wardrobe:
+              type: string
+            accessories:
+              anyOf:
+                - type: string
+                - type: array
+                  items:
+                    type: string
+        personality:
+          type: string
+        voice:
+          type: string
+  - type: object
+    required:
+      - characters
+    properties:
+      characters:
         type: array
         items:
-          type: string
-  personality:
-    type: string
-  voice:
-    type: string
+          type: object
+          required:
+            - character_id
+            - name
+            - role
+            - identity
+          properties:
+            character_id:
+              type: string
+            name:
+              type: string
+            role:
+              type: string
+            identity:
+              type: object
+              required:
+                - age
+                - appearance
+              properties:
+                age:
+                  type: string
+                appearance:
+                  type: string
+                face:
+                  type: string
+                hair:
+                  type: string
+                eyes:
+                  type: string
+                body:
+                  type: string
+                wardrobe:
+                  type: string
+                accessories:
+                  anyOf:
+                    - type: string
+                    - type: array
+                      items:
+                        type: string
+            personality:
+              type: string
+            voice:
+              type: string
