@@ -274,8 +274,6 @@ Run stages independently:
 /status my-film       # manifest status
 ```
 
-Model-filtering: image prompts default to 24 files (8 shots × 3 models: `krea2`, `flux2-klein`, `qwen-image` at `.opencode/agents/image-prompt-agent.md:7`); video prompts default to 16 files (8 shots × 2 models: `ltx-2.5`, `minimax-h3` at `.opencode/agents/video-prompt-agent.md:7`). Pass model suffix to generate only that adapter, e.g. `/images my-film flux2-klein` → `prompts/images/flux2-klein/shot_*.yaml` (8 files, no suffix — folder indicates model), `/videos my-film ltx-2.5` → `prompts/videos/ltx-2.5/shot_*.yaml` (8 files, no suffix). Scripts equivalent: `python scripts/generate_images.py projects/my-film --model flux2-klein`, `python scripts/generate_videos.py projects/my-film --model ltx-2.5`. Image and video prompts now live in `prompts/images/<model>/shot_{number}.yaml` and `prompts/videos/<model>/shot_{number}.yaml` (both backward compatible with legacy `shot_{N}.{model}.yaml` via `rglob`).
-
 Each command delegates to its agent (e.g. `/story` → `@story-agent`, `/images` → `@image-prompt-agent`). See `.opencode/commands/*.md` and `.opencode/agents/*.md`.
 
 ## Usage — Scripts & CLI
