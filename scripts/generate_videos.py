@@ -44,7 +44,11 @@ def main() -> None:
     output_dir = root / "renders" / "videos"
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    prompt_files = sorted(prompt_dir.glob("*.yaml"))
+    # Support both flat layout (prompts/videos/*.yaml) and new model subfolders (prompts/videos/<model>/*.yaml)
+    prompt_files = sorted(prompt_dir.rglob("*.yaml"))
+    # filter by model if specified (match either folder name or filename suffix .<model>.yaml)
+    if args.model:
+        prompt_files = [p for p in prompt_files if p.parent.name == args.model or f".{args.model}." in p.name]
     if not prompt_files:
         print(f"No prompts found in {prompt_dir}", file=sys.stderr)
         return

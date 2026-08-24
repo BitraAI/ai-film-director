@@ -111,8 +111,8 @@ ai-film-director/
 │       ├── props/props.yaml
 │       ├── storyboard/storyboard.yaml
 │       ├── shots/shots.yaml
-│       ├── prompts/images/*.yaml
-│       ├── prompts/videos/*.yaml
+│       ├── prompts/images/<model>/*.yaml  # krea2/, flux2-klein/, qwen-image/
+│       ├── prompts/videos/<model>/*.yaml  # ltx-2.5/, minimax-h3/
 │       ├── prompts/audio/*.yaml
 │       ├── renders/images/
 │       ├── renders/videos/
@@ -231,7 +231,7 @@ This creates `project.yaml` (`project_id`, `title`, `genre`, `subgenres`, `aspec
 
 ```
 story/  screenplay/  characters/sheets/  locations/  props/  storyboard/  shots/
-prompts/images/  prompts/videos/  prompts/audio/
+prompts/images/<model>/  prompts/videos/<model>/  prompts/audio/  # images: krea2/flux2-klein/qwen-image, videos: ltx-2.5/minimax-h3
 renders/images/  renders/videos/  audio/  final/
 ```
 
@@ -266,13 +266,15 @@ Run stages independently:
 /props my-film        # → props/props.yaml
 /storyboard my-film   # → storyboard/storyboard.yaml
 /shots my-film        # → shots/shots.yaml
-/images my-film       # → prompts/images/*.yaml + renders/images/
-/videos my-film       # → prompts/videos/*.yaml + renders/videos/
+/images my-film [krea2|flux2-klein|qwen-image]  # → prompts/images/<model>/*.yaml + renders/images/ (all 3 models by default, or filter: /images my-film flux2-klein)
+/videos my-film [ltx-2.5|minimax-h3]            # → prompts/videos/<model>/*.yaml + renders/videos/ (both models by default, or filter: /videos my-film ltx-2.5)
 /audio my-film        # → prompts/audio/*.yaml + audio/
 /render my-film       # → final/film.mp4
 /validate my-film     # schema + continuity checks
 /status my-film       # manifest status
 ```
+
+Model-filtering: image prompts default to 24 files (8 shots × 3 models: `krea2`, `flux2-klein`, `qwen-image` at `.opencode/agents/image-prompt-agent.md:7`); video prompts default to 16 files (8 shots × 2 models: `ltx-2.5`, `minimax-h3` at `.opencode/agents/video-prompt-agent.md:7`). Pass model suffix to generate only that adapter, e.g. `/images my-film flux2-klein` → `prompts/images/flux2-klein/shot_*.yaml` (8 files, no suffix — folder indicates model), `/videos my-film ltx-2.5` → `prompts/videos/ltx-2.5/shot_*.yaml` (8 files, no suffix). Scripts equivalent: `python scripts/generate_images.py projects/my-film --model flux2-klein`, `python scripts/generate_videos.py projects/my-film --model ltx-2.5`. Image and video prompts now live in `prompts/images/<model>/shot_{number}.yaml` and `prompts/videos/<model>/shot_{number}.yaml` (both backward compatible with legacy `shot_{N}.{model}.yaml` via `rglob`).
 
 Each command delegates to its agent (e.g. `/story` → `@story-agent`, `/images` → `@image-prompt-agent`). See `.opencode/commands/*.md` and `.opencode/agents/*.md`.
 
@@ -290,17 +292,18 @@ python scripts/build_manifest.py projects/my-film  # preferred — writes manife
 film-director status projects/my-film   # src/cli.py:15 — prints READY/MISSING per stage + next_stage()
 film-director manifest projects/my-film # same as build_manifest.py
 
-# Images — iterate prompts/images/*.yaml → renders/images/
+# Images — iterate prompts/images/<model>/*.yaml (rglob) → renders/images/
 python scripts/generate_images.py projects/my-film
 python scripts/generate_images.py projects/my-film --model krea2
 python scripts/generate_images.py projects/my-film --model flux2-klein
 python scripts/generate_images.py projects/my-film --model qwen-image
-# src/render/images.py:render_image() + src/comfyui/client.py:ComfyUIClient
+# src/render/images.py:render_image() + src/comfyui/client.py:ComfyUIClient (supports flat + subfolder via rglob)
 
-# Videos — iterate prompts/videos/*.yaml → renders/videos/
+# Videos — iterate prompts/videos/<model>/*.yaml (rglob) → renders/videos/
 python scripts/generate_videos.py projects/my-film
 python scripts/generate_videos.py projects/my-film --model ltx-2.5
 python scripts/generate_videos.py projects/my-film --model minimax-h3
+# src/render/videos.py:render_video() + src/comfyui/client.py:ComfyUIClient (supports flat + subfolder via rglob)
 
 # Audio — iterate prompts/audio/*.yaml → audio/
 python scripts/generate_audio.py projects/my-film
@@ -326,9 +329,9 @@ python scripts/run_workflow.py <model> "<prompt>" [--negative "..."] [--seed 42]
 | 5 | Props | `/props` | story + screenplay | `props/props.yaml` | `prop.schema.yaml` |
 | 6 | Storyboard | `/storyboard` | screenplay + characters + locations | `storyboard/storyboard.yaml` | `storyboard.schema.yaml` |
 | 7 | Shot List | `/shots` | storyboard | `shots/shots.yaml` | `shot.schema.yaml` |
-| 8 | Image Prompts | `/images` (prompt phase) | shots + sheets + locations | `prompts/images/*.yaml` | `image-prompt.schema.yaml` |
+| 8 | Image Prompts | `/images` (prompt phase) | shots + sheets + locations | `prompts/images/<model>/*.yaml` | `image-prompt.schema.yaml` |
 | 9 | Image Generation | `/images` (render) / `generate_images.py` | image prompts + `workflows/image/*.json` | `renders/images/` | `workflow.schema.yaml` |
-| 10 | Video Prompts | `/videos` (prompt phase) | shots + images | `prompts/videos/*.yaml` | `video-prompt.schema.yaml` |
+| 10 | Video Prompts | `/videos` (prompt phase) | shots + images | `prompts/videos/<model>/*.yaml` | `video-prompt.schema.yaml` |
 | 11 | Video Generation | `/videos` (render) / `generate_videos.py` | video prompts + `workflows/video/*.json` | `renders/videos/` | `workflow.schema.yaml` |
 | 12 | Audio | `/audio` / `generate_audio.py` | screenplay dialogue | `prompts/audio/*.yaml`, `audio/` | `audio-prompt.schema.yaml` |
 | 13 | Final | `/render` / `render_final.py` | renders + audio | `final/film.mp4` | `render.schema.yaml` |

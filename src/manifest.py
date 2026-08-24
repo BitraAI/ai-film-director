@@ -6,7 +6,8 @@ import yaml
 
 
 def _dir_has_files(path: Path, pattern: str = "*.yaml") -> bool:
-    return path.is_dir() and any(path.glob(pattern))
+    # support both flat prompts/images/*.yaml and model subfolders prompts/images/<model>/*.yaml
+    return path.is_dir() and any(path.rglob(pattern))
 
 
 def build_manifest(root: Path) -> dict:

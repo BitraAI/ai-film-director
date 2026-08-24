@@ -10,9 +10,10 @@ minimax-h3
 
 Create:
 
-prompts/videos/shot_*.*.yaml
-  - Format: shot_{number}._{model}.yaml
-  - Examples: shot_1.ltx-2.5.yaml, shot_1.minimax-h3.yaml
+prompts/videos/<model>/shot_{number}.yaml
+  - Format: prompts/videos/<model>/shot_{number}.yaml (no model suffix — folder indicates model)
+  - Examples: prompts/videos/ltx-2.5/shot_1.yaml, prompts/videos/minimax-h3/shot_1.yaml
+  - For 8 shots, 8x2 = 16 videos (8 per model folder)
 
 Use:
 

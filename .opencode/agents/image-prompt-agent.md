@@ -11,10 +11,10 @@ qwen-image
 
 Create:
 
-prompts/images/shot_*.*.yaml
-  - Format: shot_{number}._{model}.yaml
-  - Examples: shot_1.krea2.yaml, shot_1.flux2-klein.yaml, shot_1.qwen-image.yaml
-  - For 8 shots, 8x3 = 24 images 
+prompts/images/<model>/shot_{number}.yaml
+  - Format: prompts/images/<model>/shot_{number}.yaml (no model suffix — folder indicates model)
+  - Examples: prompts/images/krea2/shot_1.yaml, prompts/images/flux2-klein/shot_1.yaml, prompts/images/qwen-image/shot_1.yaml
+  - For 8 shots, 8x3 = 24 images (8 per model folder)
 
 Use:
 
