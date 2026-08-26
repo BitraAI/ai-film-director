@@ -219,11 +219,13 @@ PYTHONUNBUFFERED=1
 
 ### FFmpeg
 
+```bash
 $ cd /tmp
 $ wget https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linuxarm64-gpl.tar.xz
 $ tar xvf ffmpeg-master-latest-linuxarm64-gpl.tar.xz ffmpeg-master-latest-linuxarm64-gpl/bin/ffmpeg ffmpeg-master-latest-linuxarm64-gpl/bin/ffprobe
 $ sudo mv ffmpeg-master-latest-linuxarm64-gpl/bin/ffmpeg /usr/local/bin
 $ sudo mv ffmpeg-master-latest-linuxarm64-gpl/bin/ffprobe /usr/local/bin
+```
 
 ### ComfyUI Workflows
 
