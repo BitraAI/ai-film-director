@@ -4,6 +4,7 @@ import json
 import time
 import uuid
 import random
+from pathlib import Path
 from typing import Any
 
 import requests
@@ -110,6 +111,33 @@ class ComfyUIClient:
             time.sleep(sleep)
 
         raise TimeoutError(f"ComfyUI timeout after {self.timeout}s: {prompt_id}")
+
+    def upload_image(self, image_path: Path) -> str:
+        """Upload an image to ComfyUI input directory and return server filename."""
+        p = Path(image_path)
+        if not p.is_file():
+            raise FileNotFoundError(f"Image not found: {p}")
+        # Determine mime
+        suffix = p.suffix.lower()
+        mime = {
+            ".png": "image/png",
+            ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
+            ".webp": "image/webp",
+        }.get(suffix, "image/png")
+        with p.open("rb") as f:
+            files = {"image": (p.name, f, mime)}
+            data = {"overwrite": "true"}
+            resp = self.session.post(
+                f"{self.base_url}/upload/image",
+                files=files,
+                data=data,
+                timeout=30,
+            )
+            resp.raise_for_status()
+            j = resp.json()
+            # ComfyUI returns {"name": "filename.png", "subfolder": "", "type": "input"}
+            return j.get("name") or p.name
 
     def execute(self, workflow: dict[str, Any]) -> dict[str, Any]:
         queued = self.queue(workflow)

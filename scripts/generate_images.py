@@ -45,11 +45,11 @@ def main() -> None:
     output_dir = root / "renders" / "images"
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Support both flat layout (prompts/images/*.yaml) and new model subfolders (prompts/images/<model>/*.yaml)
-    prompt_files = sorted(prompt_dir.rglob("*.yaml"))
-    # filter by model if specified (match either folder name or filename suffix .<model>.yaml)
     if args.model:
-        prompt_files = [p for p in prompt_files if p.parent.name == args.model or f".{args.model}." in p.name]
+        model_dir = prompt_dir / args.model
+        prompt_files = sorted(model_dir.glob("*.yaml")) if model_dir.exists() else []
+    else:
+        prompt_files = sorted(prompt_dir.glob("*.yaml"))
     if not prompt_files:
         print(f"No prompts found in {prompt_dir}", file=sys.stderr)
         return
@@ -58,9 +58,10 @@ def main() -> None:
     if not args.force:
         todo = [p for p in prompt_files if not (output_dir / f"{p.stem.split('.')[0]}.yaml").exists()]
         # Fallback: check by shot_id inside yaml would require loading; use prompt stem heuristic
-        # Actually shot_id may differ from filename, so we keep all if heuristic fails — simpler: keep all.
-        # We skip filtering here to avoid false skips; rely on caller to use --force.
-        todo = prompt_files
+        # If heuristic fails we keep all to avoid false skips — caller can use --force.
+        if not todo:
+            # No new prompts detected, keep full list to avoid silent no-op
+            todo = prompt_files
     else:
         todo = prompt_files
 

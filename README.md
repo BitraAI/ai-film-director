@@ -127,14 +127,14 @@ ai-film-director/
 │   ├── validation.py            # validate_file() (cached schemas)
 │   ├── manifest.py              # build_manifest() / save_manifest()
 │   ├── comfyui/
-│   │   ├── client.py            # ComfyUIClient (Session + retry + backoff)
+│   │   ├── client.py            # ComfyUIClient (Session + retry + backoff + upload_image)
 │   │   ├── workflow.py          # load_workflow() / set_node_input()
-│   │   └── adapters.py          # prepare_workflow() (cached)
+│   │   └── adapters.py          # prepare_workflow() (cached, LTX-2.5 I2V patch + dot/underscore fallback)
 │   ├── pipeline/
 │   │   └── director.py          # FilmDirector.status() / next_stage()
 │   ├── render/
-│   │   ├── images.py            # render_image()
-│   │   ├── videos.py            # render_video()
+│   │   ├── images.py            # render_image() → renders/images/ (skips type=temp)
+│   │   ├── videos.py            # render_video() I2V from renders/images/ via upload_image (skips temp)
 │   │   ├── audio.py             # render_audio()
 │   │   └── final.py             # render_final() → final/film.mp4
 │   └── utils/
@@ -201,9 +201,17 @@ PYTHONUNBUFFERED=1
 | `POLL_INTERVAL` | `1` | Poll interval (seconds) |
 | `FFMPEG_BIN` | `ffmpeg` | FFmpeg binary |
 
+### FFmpeg
+
+$ cd /tmp
+$ wget https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linuxarm64-gpl.tar.xz
+$ tar xvf ffmpeg-master-latest-linuxarm64-gpl.tar.xz ffmpeg-master-latest-linuxarm64-gpl/bin/ffmpeg ffmpeg-master-latest-linuxarm64-gpl/bin/ffprobe
+$ sudo mv ffmpeg-master-latest-linuxarm64-gpl/bin/ffmpeg /usr/local/bin
+$ sudo mv ffmpeg-master-latest-linuxarm64-gpl/bin/ffprobe /usr/local/bin
+
 ### ComfyUI Workflows
 
-Place your exported ComfyUI API graphs here (adapters only mutate configured prompt/input nodes):
+Right click Workflow tab and select Export (API). Place your exported ComfyUI API graphs here (adapters only mutate configured prompt/input nodes):
 
 ```
 workflows/image/krea2.json
@@ -290,18 +298,20 @@ python scripts/build_manifest.py projects/my-film  # preferred — writes manife
 film-director status projects/my-film   # src/cli.py:15 — prints READY/MISSING per stage + next_stage()
 film-director manifest projects/my-film # same as build_manifest.py
 
-# Images — iterate prompts/images/<model>/*.yaml (rglob) → renders/images/
+# Images — iterate prompts/images/<model>/*.yaml (rglob) → renders/images/ (final outputs only)
 python scripts/generate_images.py projects/my-film
 python scripts/generate_images.py projects/my-film --model krea2
 python scripts/generate_images.py projects/my-film --model flux2-klein
 python scripts/generate_images.py projects/my-film --model qwen-image
-# src/render/images.py:render_image() + src/comfyui/client.py:ComfyUIClient (supports flat + subfolder via rglob)
+# src/render/images.py:render_image() saves only type=output to renders/images/ (skips type=temp previews)
+# src/comfyui/client.py:ComfyUIClient (Session + retry + backoff + rglob subfolders)
+# Note: projects/<film>/images/ is removed – do not download from ComfyUI/temp
 
-# Videos — iterate prompts/videos/<model>/*.yaml (rglob) → renders/videos/
+# Videos — iterate prompts/videos/<model>/*.yaml (rglob) → renders/videos/ (I2V via renders/images/)
 python scripts/generate_videos.py projects/my-film
-python scripts/generate_videos.py projects/my-film --model ltx-2.5
+python scripts/generate_videos.py projects/my-film --model ltx-2.5  # I2V: uploads renders/images/<shot_id>.png via client.upload_image() + LTX-2.5 timeline_data patch (prompt/duration/fps/LoadImage), T2V fallback if missing; skips temp previews
 python scripts/generate_videos.py projects/my-film --model minimax-h3
-# src/render/videos.py:render_video() + src/comfyui/client.py:ComfyUIClient (supports flat + subfolder via rglob)
+# src/render/videos.py:render_video() + src/comfyui/adapters.py:prepare_workflow() (cached, dot/underscore workflow fallback) + rglob
 
 # Audio — iterate prompts/audio/*.yaml → audio/
 python scripts/generate_audio.py projects/my-film

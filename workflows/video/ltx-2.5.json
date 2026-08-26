@@ -1,3 +1,618 @@
 {
-  "YOUR_EXISTING_LTX_2_5_WORKFLOW": "PASTE_YOUR_EXISTING_COMFYUI_JSON_HERE"
+  "3": {
+    "inputs": {
+      "vae_name": "ltx-2.5-video-vae-conv-bf16.safetensors",
+      "device": "main_device",
+      "weight_dtype": "bf16"
+    },
+    "class_type": "VAELoaderKJ",
+    "_meta": {
+      "title": "Video VAELoader"
+    }
+  },
+  "5": {
+    "inputs": {
+      "frame_rate": [
+        "220",
+        7
+      ],
+      "positive": [
+        "220",
+        1
+      ],
+      "negative": [
+        "228",
+        0
+      ]
+    },
+    "class_type": "LTXVConditioning",
+    "_meta": {
+      "title": "LTXVConditioning"
+    }
+  },
+  "7": {
+    "inputs": {
+      "video_latent": [
+        "206",
+        2
+      ],
+      "audio_latent": [
+        "220",
+        4
+      ]
+    },
+    "class_type": "LTXVConcatAVLatent",
+    "_meta": {
+      "title": "LTXVConcatAVLatent"
+    }
+  },
+  "10": {
+    "inputs": {
+      "noise": [
+        "28",
+        0
+      ],
+      "guider": [
+        "233",
+        0
+      ],
+      "sampler": [
+        "29",
+        0
+      ],
+      "sigmas": [
+        "229",
+        0
+      ],
+      "latent_image": [
+        "7",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "SamplerCustomAdvanced"
+    }
+  },
+  "13": {
+    "inputs": {
+      "av_latent": [
+        "10",
+        0
+      ]
+    },
+    "class_type": "LTXVSeparateAVLatent",
+    "_meta": {
+      "title": "LTXVSeparateAVLatent"
+    }
+  },
+  "16": {
+    "inputs": {
+      "samples": [
+        "48",
+        1
+      ],
+      "audio_vae": [
+        "230",
+        0
+      ]
+    },
+    "class_type": "LTXVAudioVAEDecode",
+    "_meta": {
+      "title": "LTXV Audio VAE Decode"
+    }
+  },
+  "28": {
+    "inputs": {
+      "noise_seed": 385907459924252
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "RandomNoise"
+    }
+  },
+  "29": {
+    "inputs": {
+      "sampler_name": "res_2s"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "KSamplerSelect"
+    }
+  },
+  "47": {
+    "inputs": {
+      "noise": [
+        "28",
+        0
+      ],
+      "guider": [
+        "235",
+        0
+      ],
+      "sampler": [
+        "53",
+        0
+      ],
+      "sigmas": [
+        "104",
+        0
+      ],
+      "latent_image": [
+        "50",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "SamplerCustomAdvanced"
+    }
+  },
+  "48": {
+    "inputs": {
+      "av_latent": [
+        "47",
+        0
+      ]
+    },
+    "class_type": "LTXVSeparateAVLatent",
+    "_meta": {
+      "title": "LTXVSeparateAVLatent"
+    }
+  },
+  "50": {
+    "inputs": {
+      "video_latent": [
+        "205",
+        2
+      ],
+      "audio_latent": [
+        "13",
+        1
+      ]
+    },
+    "class_type": "LTXVConcatAVLatent",
+    "_meta": {
+      "title": "LTXVConcatAVLatent"
+    }
+  },
+  "52": {
+    "inputs": {
+      "samples": [
+        "208",
+        2
+      ],
+      "upscale_model": [
+        "57",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "LTXVLatentUpsampler",
+    "_meta": {
+      "title": "LTXVLatentUpsampler"
+    }
+  },
+  "53": {
+    "inputs": {
+      "sampler_name": "euler_ancestral"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "KSamplerSelect"
+    }
+  },
+  "57": {
+    "inputs": {
+      "model_name": "ltx-2.5-latent-spatial-upscaler-x2-bf16-1.0.safetensors"
+    },
+    "class_type": "LatentUpscaleModelLoader",
+    "_meta": {
+      "title": "Load Latent Upscale Model"
+    }
+  },
+  "78": {
+    "inputs": {
+      "vae_name": "taeltx2_3.safetensors",
+      "device": "main_device",
+      "weight_dtype": "bf16"
+    },
+    "class_type": "VAELoaderKJ",
+    "_meta": {
+      "title": "Tiny VAELoader KJ"
+    }
+  },
+  "79": {
+    "inputs": {
+      "preview_rate": 25,
+      "model": [
+        "94",
+        0
+      ],
+      "vae": [
+        "78",
+        0
+      ]
+    },
+    "class_type": "LTX2SamplingPreviewOverride",
+    "_meta": {
+      "title": "LTX2 Sampling Preview Override"
+    }
+  },
+  "94": {
+    "inputs": {
+      "unet_name": "ltx-2.5-22b-distilled-transformer-nvfp4.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Load Diffusion Model"
+    }
+  },
+  "99": {
+    "inputs": {
+      "blocks": "",
+      "video_scale": 1,
+      "audio_scale": 1,
+      "audio_to_video_scale": 1,
+      "video_to_audio_scale": 1,
+      "triton_kernels": true,
+      "model": [
+        "100",
+        0
+      ]
+    },
+    "class_type": "LTX2AttentionTunerPatch",
+    "_meta": {
+      "title": "LTX2 Attention Tuner Patch"
+    }
+  },
+  "100": {
+    "inputs": {
+      "chunks": 2,
+      "dim_threshold": 4096,
+      "model": [
+        "79",
+        0
+      ]
+    },
+    "class_type": "LTXVChunkFeedForward",
+    "_meta": {
+      "title": "LTXV Chunk FeedForward"
+    }
+  },
+  "104": {
+    "inputs": {
+      "sigmas": "0.85, 0.7250, 0.4219, 0.0"
+    },
+    "class_type": "ManualSigmas",
+    "_meta": {
+      "title": "ManualSigmas"
+    }
+  },
+  "205": {
+    "inputs": {
+      "ic_lora_name": "None",
+      "ic_lora_strength": 1,
+      "scale_by": 1,
+      "upscale_method": "bicubic",
+      "image_attention_strength": 1,
+      "crop": "center",
+      "auto_snap_ic_grid": true,
+      "use_tiled_encode": false,
+      "tile_size": 256,
+      "tile_overlap": 64,
+      "retake_mode": false,
+      "msr_strength": 0,
+      "positive": [
+        "208",
+        0
+      ],
+      "negative": [
+        "208",
+        1
+      ],
+      "vae": [
+        "3",
+        0
+      ],
+      "latent": [
+        "52",
+        0
+      ],
+      "guide_data": [
+        "220",
+        5
+      ],
+      "motion_guide_data": [
+        "220",
+        6
+      ],
+      "model": [
+        "220",
+        0
+      ]
+    },
+    "class_type": "LTXDirectorGuideCS25",
+    "_meta": {
+      "title": "LTX Director Guide CS (2.5)"
+    }
+  },
+  "206": {
+    "inputs": {
+      "ic_lora_name": "None",
+      "ic_lora_strength": 1,
+      "scale_by": 0.5,
+      "upscale_method": "bicubic",
+      "image_attention_strength": 1,
+      "crop": "center",
+      "auto_snap_ic_grid": true,
+      "use_tiled_encode": false,
+      "tile_size": 256,
+      "tile_overlap": 64,
+      "retake_mode": false,
+      "msr_strength": 0,
+      "positive": [
+        "5",
+        0
+      ],
+      "negative": [
+        "5",
+        1
+      ],
+      "vae": [
+        "3",
+        0
+      ],
+      "latent": [
+        "220",
+        3
+      ],
+      "guide_data": [
+        "220",
+        5
+      ],
+      "motion_guide_data": [
+        "220",
+        6
+      ],
+      "model": [
+        "220",
+        0
+      ]
+    },
+    "class_type": "LTXDirectorGuideCS25",
+    "_meta": {
+      "title": "LTX Director Guide CS (2.5)"
+    }
+  },
+  "207": {
+    "inputs": {
+      "positive": [
+        "205",
+        0
+      ],
+      "negative": [
+        "205",
+        1
+      ],
+      "latent": [
+        "48",
+        0
+      ]
+    },
+    "class_type": "LTXDirectorCropGuidesCS25",
+    "_meta": {
+      "title": "LTX Director Crop Guides CS (2.5)"
+    }
+  },
+  "208": {
+    "inputs": {
+      "positive": [
+        "206",
+        0
+      ],
+      "negative": [
+        "206",
+        1
+      ],
+      "latent": [
+        "13",
+        0
+      ]
+    },
+    "class_type": "LTXDirectorCropGuidesCS25",
+    "_meta": {
+      "title": "LTX Director Crop Guides CS (2.5)"
+    }
+  },
+  "220": {
+    "inputs": {
+      "start_second": 0,
+      "end_second": 10,
+      "duration_seconds": 10,
+      "start_frame": 0,
+      "end_frame": 250,
+      "duration_frames": 250,
+      "timeline_data": "{\"mainTrackEnabled\":true,\"audioTrackEnabled\":true,\"motionTrackEnabled\":true,\"propHeight\":90,\"globalPropHeight\":173,\"showFilenames\":false,\"showPromptZones\":true,\"overrideAudio\":false,\"inpaint_audio\":true,\"global_prompt\":\"\",\"retake_global_prompt\":\"\",\"retakeMode\":false,\"retakeStart\":79,\"retakeLength\":66,\"retakePrompt\":\"replace driver with @char1 \",\"retakeStrength\":1,\"retakeVideo\":{\"fileName\":\"LTX-2_00650-audio.mp4\",\"imageFile\":\"whatdreamscost/LTX-2_00650-audio.mp4\",\"videoDurationFrames\":201,\"fileSize\":13238818},\"normalStartFrame\":0,\"normalDurationFrames\":250,\"reference_mode\":\"OFF\",\"disable_prompt_relay\":true,\"msr_prefix_frames\":41,\"analyzeProvider\":\"ollama\",\"analyzeBaseUrl\":\"\",\"analyzeModel\":\"\",\"characters\":[{\"images\":[],\"description\":\"She features a pale, mechanical face framed by large goggles and covered by a sleek black hood, exposing robotic joints on her neck and chest armor plating. Her outfit is composed of tight-fitting, segmented tactical gear in matte black with bright orange accents that wraps around her entire body from head to toe.\"},{\"images\":[],\"description\":\"It is a Harley-Davidson cruiser-style motorcycle featuring a matte grey finish with black engine components and long, sweeping exhaust pipes. Its shape combines a retro-cruiser silhouette with custom knobby tires on one wheel to create a distinctive aggressive stance. Key features include a single central round headlight, bright red brake calipers visible through the spokes of both wheels, \\\"Harley-Davidson\\\" lettering on the fuel tank, and exposed V-twin engine branding.\"},{\"images\":[],\"description\":\"\"}],\"segments\":[],\"motionSegments\":[],\"audioSegments\":[]}",
+      "local_prompts": "",
+      "segment_lengths": "",
+      "epsilon": 0.001,
+      "guide_strength": "",
+      "use_custom_audio": true,
+      "use_custom_motion": true,
+      "inpaint_audio": true,
+      "frame_rate": 25,
+      "display_mode": "seconds",
+      "custom_width": 1280,
+      "custom_height": 704,
+      "resize_method": "stretch to fit",
+      "divisible_by": 32,
+      "img_compression": 18,
+      "override_audio": false,
+      "reference_strength": 1,
+      "ltx_settings_ui": "",
+      "timeline_ui": "",
+      "model": [
+        "99",
+        0
+      ],
+      "clip": [
+        "226",
+        0
+      ],
+      "audio_vae": [
+        "230",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "LTXDirectorCS25",
+    "_meta": {
+      "title": "LTX Director CS (2.5)"
+    }
+  },
+  "226": {
+    "inputs": {
+      "clip_name": "gemma4-12b-with-proj-ltx-2.5-comfy-int8-convrot.safetensors",
+      "type": "ltxv",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Load CLIP"
+    }
+  },
+  "228": {
+    "inputs": {
+      "conditioning": [
+        "220",
+        2
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "Conditioning Zero Out"
+    }
+  },
+  "229": {
+    "inputs": {
+      "sigmas": "1.0, 0.99375, 0.9875, 0.98125, 0.975, 0.909375, 0.725, 0.421875, 0.0"
+    },
+    "class_type": "ManualSigmas",
+    "_meta": {
+      "title": "ManualSigmas"
+    }
+  },
+  "230": {
+    "inputs": {
+      "ckpt_name": "ltx-2.5-audio-vae-bf16.safetensors"
+    },
+    "class_type": "LTXVAudioVAELoader",
+    "_meta": {
+      "title": "Load LTXV Audio VAE"
+    }
+  },
+  "233": {
+    "inputs": {
+      "video_cfg": 1,
+      "audio_cfg": 1,
+      "model": [
+        "206",
+        3
+      ],
+      "positive": [
+        "206",
+        0
+      ],
+      "negative": [
+        "206",
+        1
+      ]
+    },
+    "class_type": "LTXVDualCFGGuider",
+    "_meta": {
+      "title": "LTXV Dual CFG Guider"
+    }
+  },
+  "235": {
+    "inputs": {
+      "video_cfg": 1,
+      "audio_cfg": 1,
+      "model": [
+        "205",
+        3
+      ],
+      "positive": [
+        "205",
+        0
+      ],
+      "negative": [
+        "205",
+        1
+      ]
+    },
+    "class_type": "LTXVDualCFGGuider",
+    "_meta": {
+      "title": "LTXV Dual CFG Guider"
+    }
+  },
+  "240": {
+    "inputs": {
+      "frame_rate": [
+        "220",
+        7
+      ],
+      "loop_count": 0,
+      "filename_prefix": "ltx-2.5",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": false,
+      "trim_to_audio": false,
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "241",
+        0
+      ],
+      "audio": [
+        "16",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
+  "241": {
+    "inputs": {
+      "spatial_tiles": 2,
+      "spatial_overlap": 2,
+      "temporal_tile_length": 16,
+      "temporal_overlap": 2,
+      "last_frame_fix": false,
+      "working_device": "auto",
+      "working_dtype": "auto",
+      "vae": [
+        "3",
+        0
+      ],
+      "latents": [
+        "207",
+        2
+      ]
+    },
+    "class_type": "LTXVSpatioTemporalTiledVAEDecode",
+    "_meta": {
+      "title": "🅛🅣🅧 LTXV Spatio Temporal Tiled VAE Decode"
+    }
+  }
 }
