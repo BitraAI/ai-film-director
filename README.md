@@ -176,6 +176,18 @@ film-director --help
 python -m pytest -q
 ```
 
+## Install PyTorch
+
+uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu132
+
+## Install ComfyUI
+
+git clone https://github.com/Comfy-Org/ComfyUI.git
+uv pip install -r ComfyUI/requirements.txt
+cd ComfyUI/custom_nodes
+git clone https://github.com/Comfy-Org/ComfyUI-Manager 
+uv pip install -r ComfyUI-Manager/requirements.txt
+
 ## Configure
 
 ```bash
